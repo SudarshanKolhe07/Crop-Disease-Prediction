@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prediction Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Container with increased top margin -->
+    <div class="container prediction-container" style="margin-top: 100px; background-color: #2e2e2e; border-radius: 15px; padding: 30px;">
+        <h1 class="text-center text-white">Crop Disease Prediction</h1>
+
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <label for="fileInput" class="form-label text-white">Choose an image file:</label>
+            <input type="file" id="fileInput" name="file" accept=".jpg, .jpeg, .png" class="form-control mb-3">
+            
+            <!-- Updated Button Styling -->
+            <button type="submit" class="btn btn-secondary mt-2" style="background-color: #5e5e5e; color: #ffffff; border: none;">Predict</button>
+        </form>
+
+        {% if image_path %}
+            <div class="mt-4 text-center">
+                <img src="{{ url_for('static', filename=image_path) }}" alt="Uploaded Image" class="img-fluid rounded" style="max-width: 70%; border: 2px solid #6e6e6e;">
+                <p class="mt-3 text-white">Predicted Disease: <strong>{{ predicted_label }}</strong></p>
+                <p class="text-white">Confidence Level: <strong>{{ confidence }}%</strong></p>
+            </div>
+        {% elif message %}
+            <p class="text-danger text-center">{{ message }}</p>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
